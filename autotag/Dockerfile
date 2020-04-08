@@ -22,4 +22,4 @@ USER taglamenace
 WORKDIR /repository
 VOLUME ["/repository"]
 
-CMD ["/usr/bin/autotag"]
+ENTRYPOINT ["/usr/bin/autotag"]
