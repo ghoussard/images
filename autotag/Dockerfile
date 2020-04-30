@@ -1,21 +1,15 @@
-FROM debian:buster-slim
+FROM alpine:latest
 
 # Install git
-RUN set -x \
-  && apt-get update \
-  && apt-get install --yes --no-install-recommends \
-    git \
-  && apt-get autoremove --purge \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache git
 
 # Get autotag binary from image
 COPY --from=quay.io/pantheon-public/autotag:latest /autotag /usr/bin/autotag
 
 # Create mapping user
 RUN set -x && \
-  groupadd -g 1000 taglamenace && \
-  useradd taglamenace --uid 1000 --gid 1000 --create-home --shell /bin/bash
+  addgroup -g 1000 taglamenace && \
+  adduser taglamenace -S -u 1000 -G taglamenace -H
 
 USER taglamenace
 
